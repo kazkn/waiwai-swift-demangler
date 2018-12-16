@@ -3,6 +3,7 @@ enum Type {
     case int
     case string
     case float
+    case void
     indirect case list([Type])
 }
 
@@ -13,6 +14,7 @@ extension Type: Equatable {
         case (.int, .int): return true
         case (.string, .string): return true
         case (.float, .float): return true
+        case (.void, .void): return true
         case let (.list(list1), .list(list2)):
             return list1 == list2
         default:
@@ -33,6 +35,8 @@ extension Type: CustomStringConvertible {
             return "Swift.String"
         case .float:
             return "Swift.Float"
+        case .void:
+            return "Swift.Void"
         case .list(let types):
             return types.map {$0.description }.joined(separator: ",")
         }

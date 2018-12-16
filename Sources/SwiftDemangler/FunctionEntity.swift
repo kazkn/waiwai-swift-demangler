@@ -3,4 +3,5 @@ struct FunctionEntity: Equatable {
     let declName: String
     let labelList: [String]
     let functionSignature: FunctionSignature
+    let hasThrows: Bool
 }

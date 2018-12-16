@@ -111,22 +111,28 @@ extension Parser {
 extension Parser {
     func parseKnownType() -> Type {
         var result :Type? = nil
-        let typeString = peek(count:2)
         
-        switch typeString {
-        case "Si":
-            result = .int
-        case "Sb":
-            result = .bool
-        case "SS":
-            result = .string
-        case "Sf":
-            result = .float
-        default :
-            abort()
+        if (peek(count: 1) == "S") {
+            let typeString = peek(count:2)
+            
+            switch typeString {
+            case "Si":
+                result = .int
+            case "Sb":
+                result = .bool
+            case "SS":
+                result = .string
+            case "Sf":
+                result = .float
+            default :
+                abort()
+            }
+            skip(length:2)
+        } else if (peek(count: 1) == "y") {
+            result = .void
+            skip(length:1)
         }
         
-        skip(length:2)
         return result!
     }
     
@@ -152,6 +158,17 @@ extension Parser {
 }
 
 extension Parser {
+    func parseThrows() -> Bool {
+        if (peek() == "K") {
+            skip(length: 1)
+            return true
+        } else {
+            return false
+        }
+    }
+}
+
+extension Parser {
     func parseFunctionSignature() -> FunctionSignature {
         return FunctionSignature(
             returnType: parseType(),
@@ -166,7 +183,8 @@ extension Parser {
             module: parseModule(),
             declName: parseDeclName(),
             labelList: parseLabelList(),
-            functionSignature: parseFunctionSignature()
+            functionSignature: parseFunctionSignature(),
+            hasThrows: parseThrows()
         )
     }
 }

@@ -24,10 +24,11 @@ private func convertString(entry:FunctionEntity) -> String {
         paramaters.append(String(format: "%@: %@", entry.labelList[0], entry.functionSignature.argsType.description))
     }
     
-    return String(format: "%@.%@(%@) -> %@",
+    return String(format: "%@.%@(%@)%@ -> %@",
                   entry.module,
                   entry.declName,
-                  paramaters.joined(separator: ","),
+                  paramaters.joined(separator: ", "),
+                  entry.hasThrows ? " throws" : "",
                   entry.functionSignature.returnType.description
     )
 }

@@ -7,6 +7,17 @@ final class SwiftDemanglerTests: XCTestCase {
                        "ExampleNumber.isEven(number: Swift.Int) -> Swift.Bool")
     }
 
+    func testEx2() {
+        XCTAssertEqual(demangle(name: "$S13ExampleNumber6isEven6number5count4name6enableSbSi_SiSSSbtF"),
+                       "ExampleNumber.isEven(number: Swift.Int, count: Swift.Int, name: Swift.String, enable: Swift.Bool) -> Swift.Bool")
+
+        XCTAssertEqual(demangle(name: "$S13ExampleNumber6isEven6numberSbSi_tKF"),
+                       "ExampleNumber.isEven(number: Swift.Int) throws -> Swift.Bool")
+
+        XCTAssertEqual(demangle(name: "$S13ExampleNumber6isEven6numberySi_tF"),
+                       "ExampleNumber.isEven(number: Swift.Int) -> Swift.Void")
+    }
+
     func testParser1() {
         var parser = Parser(name: "0")
         
@@ -91,7 +102,7 @@ final class SwiftDemanglerTests: XCTestCase {
     func testParser8() {
         let sig = FunctionSignature(returnType: .bool, argsType: .list([.int]))
         XCTAssertEqual(Parser(name: "13ExampleNumber6isEven6numberSbSi_tF").parseFunctionEntity(),
-                       FunctionEntity(module: "ExampleNumber", declName: "isEven", labelList: ["number"], functionSignature: sig))
+                       FunctionEntity(module: "ExampleNumber", declName: "isEven", labelList: ["number"], functionSignature: sig, hasThrows: false))
     }
 //    static var allTests = [
 //        ("testEx1", testEx1, testParser1, testParser2),
